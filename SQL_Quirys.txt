@@ -1,0 +1,217 @@
+..................................
+##Working with SELECT statement##
+..................................
+
+SELECT *
+FROM HumanResources.Employee;
+ 
+SELECT  JobTitle
+FROM HumanResources.Employee;
+ 
+SELECT BusinessEntityID, JobTitle
+FROM HumanResources.Employee;
+ 
+SELECT DISTINCT JobTitle
+FROM HumanResources.Employee;
+
+.......................................................
+##Filter the Records of the Table using WHERE clause##
+.......................................................
+
+SELECT BusinessEntityID, JobTitle
+FROM HumanResources.Employee
+WHERE JobTitle = 'Research and Development Manager';
+ 
+SELECT BusinessEntityID, JobTitle
+FROM HumanResources.Employee
+WHERE BusinessEntityID > 50;
+ 
+SELECT BusinessEntityID, JobTitle
+FROM HumanResources.Employee
+WHERE BusinessEntityID >= 50;
+ 
+SELECT BusinessEntityID, JobTitle
+FROM HumanResources.Employee
+WHERE BusinessEntityID <= 50;
+ 
+SELECT BusinessEntityID, JobTitle
+FROM HumanResources.Employee
+WHERE BusinessEntityID < 50;
+.........................
+##Arithmetic operators##
+.........................
+
+SELECT SubTotal, TaxAmt, SubTotal + TaxAmt AS SubTotalWithTaxAmt
+FROM Purchasing.PurchaseOrderHeader;
+ 
+SELECT SubTotal, TaxAmt, SubTotal - TaxAmt AS a
+FROM Purchasing.PurchaseOrderHeader;
+ 
+SELECT SubTotal, TaxAmt, SubTotal * TaxAmt AS a
+FROM Purchasing.PurchaseOrderHeader;
+ 
+SELECT SubTotal, TaxAmt, SubTotal / TaxAmt AS a
+FROM Purchasing.PurchaseOrderHeader;
+ 
+SELECT SubTotal, TaxAmt, SubTotal / TaxAmt AS a
+FROM Purchasing.PurchaseOrderHeader
+WHERE TaxAmt > 0;
+..............................
+##Operator and Concatanation##
+..............................
+
+SELECT SubTotal, TaxAmt, SubTotal + TaxAmt AS SubTotalWithTaxAmt
+FROM Purchasing.PurchaseOrderHeader
+WHERE SubTotal + TaxAmt > 500;
+ 
+SELECT FirstName, MiddleName, LastName, FirstName + ' ' + MiddleName +
+       ' ' + LastName AS FullName
+FROM Person.Person;
+...............
+##Null Value##
+...............
+
+SELECT FirstName, MiddleName, LastName
+FROM Person.Person
+WHERE MiddleName IS NULL;
+ 
+SELECT FirstName, MiddleName, LastName
+FROM Person.Person
+WHERE MiddleName IS NOT NULL;
+......................
+##AND & OR opperator##
+......................
+
+SELECT *
+FROM HumanResources.Employee
+WHERE MaritalStatus ='S' AND Gender ='F';
+ 
+SELECT *
+FROM HumanResources.Employee
+WHERE JobTitle= 'Design Engineer' OR JobTitle = 'Research and Development Manager'
+....................................................
+##Select Records Between @ Ranges and from a List##
+....................................................
+
+SELECT *
+FROM HumanResources.Employee
+WHERE JobTitle IN ('Design Engineer','Research and Development Manager');
+ 
+SELECT *
+FROM HumanResources.Employee
+WHERE BusinessEntityID IN (1,5,10,15);
+ 
+SELECT *
+FROM HumanResources.Employee
+WHERE BusinessEntityID BETWEEN 1 AND 50;
+.....................
+##Matching Patterns##
+.....................
+
+SELECT *
+FROM Person.StateProvince
+WHERE Name LIKE 'A%';
+ 
+SELECT *
+FROM Person.StateProvince
+WHERE Name LIKE 'Ala%';
+ 
+SELECT *
+FROM Person.StateProvince
+WHERE Name LIKE '%o';
+ 
+SELECT *
+FROM Person.StateProvince
+WHERE Name LIKE 'Al____';
+.............
+##Shorting##
+.............
+
+SELECT City, PostalCode
+FROM Person.Address
+ORDER BY City  DESC;
+ 
+SELECT City, PostalCode
+FROM Person.Address
+ORDER BY postalcode  DESC;
+ 
+SELECT FirstName, LastNAme, MiddleName  
+FROM Person.Person
+WHERE MiddleName IS NOT NULL
+ORDER BY FirstName DESC, LastName Asc;
+......................................................
+##GROUP BY and Numeric Function(aggrigate Function)##
+##In other Words Group By Clause##
+......................................................
+
+SELECT SalesOrderId, UnitPrice
+FROM sales.salesorderdetail;
+ 
+SELECT SalesOrderId, SUM(UnitPrice) AS TotalUnitPricePerSales
+FROM sales.salesorderdetail
+GROUP BY SalesOrderId
+ 
+SELECT SalesOrderId, AVG(UnitPrice) AS AvgUnitPricePerSales
+FROM sales.salesorderdetail
+GROUP BY SalesOrderId
+ 
+SELECT SalesOrderId, COUNT(UnitPrice) AS CountUnitPrice
+FROM sales.salesorderdetail
+GROUP BY SalesOrderId
+ 
+SELECT SalesOrderId, MAX(UnitPrice) AS MaxUnitPrice
+FROM sales.salesorderdetail
+GROUP BY SalesOrderId
+ 
+SELECT SalesOrderId, MIN(UnitPrice) AS MaxUnitPrice
+FROM sales.salesorderdetail
+GROUP BY SalesOrderId
+
+...................
+##String Function##
+...................
+
+SELECT  FirstName, MiddleName, LastName, 
+        CONCAT(FirstName, ' ', MiddleName, ' ',LastName) AS FullName
+FROM Person.Person;
+ 
+SELECT  FirstName, LEN(FirstName)
+FROM Person.Person;
+ 
+SELECT  FirstName, LEFT(FirstName,2) AS ExtractFromleft
+FROM Person.Person;
+ 
+SELECT  FirstName, RIGHT(FirstName,3) AS ExtractFromRight
+FROM Person.Person;
+ 
+SELECT  FirstName, SUBSTRING(FirstName,3,4) AS ExtractASubstring
+FROM Person.Person;
+
+.................
+##Date Function
+.................
+
+SELECT  SalesOrderId, OrderDate, DAY(OrderDate) AS extractDay
+FROM Sales.SalesOrderHeader;
+ 
+SELECT  SalesOrderId, OrderDate, MONTH(OrderDate) AS extractMonth
+FROM Sales.SalesOrderHeader;
+ 
+SELECT  SalesOrderId, OrderDate, YEAR(OrderDate) AS extractYear
+FROM Sales.SalesOrderHeader;
+ 
+SELECT CURRENT_TIMESTAMP;
+
+..................
+##Having Clause##
+..................
+
+SELECT SalesOrderId, SUM(UnitPrice) AS TotalUnitPricePerSales
+FROM sales.salesorderdetail
+WHERE SalesOrderID > 50000
+GROUP BY SalesOrderId
+HAVING SUM(UnitPrice) > 10000
+ORDER BY SalesOrderId DESC
+
+Note: We have to maintain same order while writting sql It is mendetory,
+For sql Server the order is: FROM -> WHERE -> GROUP BY -> SELECT -> ORDER BY. 
